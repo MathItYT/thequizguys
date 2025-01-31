@@ -23,7 +23,7 @@ export default function Home() {
             Desde <b>matemáticas escolares</b> hasta <b>matemáticas universitarias</b>, ¡estamos aquí para ayudarte con <b>quizzes</b>, <b>clases interactivas</b>, y <b>mucho más!</b> 😎
           </p>
           <div className="flex p-5 justify-center">
-            <Button className="bg-[#5865f2] text-[#ffffff]">
+            <Button className="bg-[#5865f2] text-[#ffffff] hover:bg-[#6e7ff2]">
               <a href="/login" className="flex items-center gap-2">
                 <Image src="/discord-mark-white.svg" alt="Discord Logo" width={30} height={30} className=""></Image>
                 Iniciar sesión
