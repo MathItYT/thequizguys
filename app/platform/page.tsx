@@ -39,7 +39,29 @@ export default async function Page({
             const userData: any = await userResult.body.json();
             const discordGuildId = process.env.DISCORD_GUILD_ID!;
             const isDiscordGuildMember = userData.some((guild: any) => guild.id === discordGuildId);
-            return <MainComponent isDiscordGuildMember={isDiscordGuildMember} messageToLog={userData} />;
+            if (isDiscordGuildMember) {
+                const roles = await request(`https://discord.com/api/users/@me/guilds/${discordGuildId}/member`, {
+                    headers: {
+                        authorization: `${tokenData.token_type} ${tokenData.access_token}`,
+                    },
+                });
+                const rolesData: any = await roles.body.json();
+                const isMathHelper = rolesData.roles.includes(process.env.DISCORD_MATH_HELPER_ROLE_ID!);
+                const isPhysicsHelper = rolesData.roles.includes(process.env.DISCORD_PHYSICS_HELPER_ROLE_ID!);
+                const isChemistryHelper = rolesData.roles.includes(process.env.DISCORD_CHEMISTRY_HELPER_ROLE_ID!);
+                const isBiologyHelper = rolesData.roles.includes(process.env.DISCORD_BIOLOGY_HELPER_ROLE_ID!);
+                const isComputerScienceHelper = rolesData.roles.includes(process.env.DISCORD_COMPUTER_SCIENCE_HELPER_ROLE_ID!);
+                const userResponse = await request('https://discord.com/api/users/@me', {
+                    headers: {
+                        authorization: `${tokenData.token_type} ${tokenData.access_token}`,
+                    },
+                });
+                const userData: any = await userResponse.body.json();
+                const userId = userData.id;
+                const isMathLikeUserId = userId === process.env.DISCORD_MATHLIKE_USER_ID;
+                return <MainComponent isDiscordGuildMember={isDiscordGuildMember} isMathHelper={isMathHelper} isPhysicsHelper={isPhysicsHelper} isChemistryHelper={isChemistryHelper} isBiologyHelper={isBiologyHelper} isComputerScienceHelper={isComputerScienceHelper} isMathLikeUserId={isMathLikeUserId} />;
+            }
+            return <MainComponent isDiscordGuildMember={isDiscordGuildMember} />;
         } catch (error) {
             console.error(error);
             return <MainComponent />;
