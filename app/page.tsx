@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { LoginButton } from "./login-button";
-import '@/envConfig';
 
 export default function Home() {
   return (
@@ -24,7 +23,7 @@ export default function Home() {
             Desde <b>matemáticas escolares</b> hasta <b>matemáticas universitarias</b>, ¡estamos aquí para ayudarte con <b>quizzes</b>, <b>clases interactivas</b>, y <b>mucho más!</b> 😎
           </p>
           <div className="flex p-5 justify-center">
-            <LoginButton loginUrl={process.env.DISCORD_LOGIN_URL!} />
+            <LoginButton loginUrl="/login" />
           </div>
         </div>
       </main>

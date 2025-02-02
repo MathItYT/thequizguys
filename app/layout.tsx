@@ -15,10 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | The Math Guys",
-    default: "The Math Guys",
-  },
+  title: "The Math Guys",
   description: "Aprendizaje interactivo y más 🚀",
 };
 
