@@ -18,7 +18,7 @@ export default async function PlatformPage() {
         );
     }
     return (
-        <div className="flex items-center h-screen flex-col gap-4 pt-4">
+        <div className="flex items-center h-screen flex-col gap-4 pt-4 w-full">
             <div className="flex items-center">
                 <TMGLogo size={90} />
                 <h1 className="text-4xl font-bold">The Math Guys</h1>

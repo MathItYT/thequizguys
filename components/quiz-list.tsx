@@ -49,12 +49,12 @@ export default async function QuizList({
     const publicLessons = data!.filter(lessonFilter);
     publicLessons.sort((a, b) => a.id - b.id);
     return (
-        <div className="mt-8 flex items-center flex-col gap-4">
-            <Carousel className="w-60">
+        <div className="mt-8 flex items-center flex-col gap-4 w-full">
+            <Carousel className="w-4/6">
                 <CarouselContent>
                     {publicLessons.map((lesson) => (
                         <CarouselItem key={lesson.id}>
-                            <Card className="w-56">
+                            <Card>
                                 <CardHeader>
                                     <CardTitle>{lesson.title}</CardTitle>
                                     <CardDescription>{lesson.description}</CardDescription>
