@@ -35,19 +35,17 @@ export async function getDiscordData(code: string): Promise<DiscordData> {
             "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-            client_id: process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID!,
-            client_secret: process.env.NEXT_PUBLIC_DISCORD_CLIENT_SECRET!,
+            client_id: process.env.DISCORD_CLIENT_ID!,
+            client_secret: process.env.DISCORD_CLIENT_SECRET!,
             code,
             grant_type: "authorization_code",
-            redirect_uri: process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI!,
+            redirect_uri: process.env.DISCORD_REDIRECT_URI!,
             scope: ["identify", "guilds"].join(" "),
         }).toString(),
     });
     const data = await response.json();
-    console.log(data);
     const token = data.access_token;
     const tokenType = data.token_type;
-    console.log(token, tokenType);
     const userResponse = await fetch("https://discord.com/api/users/@me", {
         headers: {
             authorization: `${tokenType} ${token}`,
@@ -60,8 +58,7 @@ export async function getDiscordData(code: string): Promise<DiscordData> {
         },
     });
     const guildsData = await guildsResponse.json();
-    const discordGuildId = process.env.NEXT_PUBLIC_DISCORD_GUILD_ID!;
-    console.log(guildsData);
+    const discordGuildId = process.env.DISCORD_GUILD_ID!;
     const isDiscordGuildMember = guildsData.some((guild: HasId) => guild.id === discordGuildId);
     if (isDiscordGuildMember) {
         const rolesResponse = await fetch(`https://discord.com/api/users/@me/guilds/${discordGuildId}/member`, {
@@ -70,13 +67,13 @@ export async function getDiscordData(code: string): Promise<DiscordData> {
             },
         });
         const rolesData = await rolesResponse.json();
-        const isMathHelper = rolesData.roles.includes(process.env.NEXT_PUBLIC_DISCORD_MATH_HELPER_ROLE_ID!);
-        const isPhysicsHelper = rolesData.roles.includes(process.env.NEXT_PUBLIC_DISCORD_PHYSICS_HELPER_ROLE_ID!);
-        const isChemistryHelper = rolesData.roles.includes(process.env.NEXT_PUBLIC_DISCORD_CHEMISTRY_HELPER_ROLE_ID!);
-        const isBiologyHelper = rolesData.roles.includes(process.env.NEXT_PUBLIC_DISCORD_BIOLOGY_HELPER_ROLE_ID!);
-        const isComputerScienceHelper = rolesData.roles.includes(process.env.NEXT_PUBLIC_DISCORD_COMPUTER_SCIENCE_HELPER_ROLE_ID!);
+        const isMathHelper = rolesData.roles.includes(process.env.DISCORD_MATH_HELPER_ROLE_ID!);
+        const isPhysicsHelper = rolesData.roles.includes(process.env.DISCORD_PHYSICS_HELPER_ROLE_ID!);
+        const isChemistryHelper = rolesData.roles.includes(process.env.DISCORD_CHEMISTRY_HELPER_ROLE_ID!);
+        const isBiologyHelper = rolesData.roles.includes(process.env.DISCORD_BIOLOGY_HELPER_ROLE_ID!);
+        const isComputerScienceHelper = rolesData.roles.includes(process.env.DISCORD_COMPUTER_SCIENCE_HELPER_ROLE_ID!);
         const userId = userData.id;
-        const isMathLikeUserId = userId === process.env.NEXT_PUBLIC_DISCORD_MATHLIKE_USER_ID;
+        const isMathLikeUserId = userId === process.env.DISCORD_MATHLIKE_USER_ID;
         return {
             user: userData,
             roles: {

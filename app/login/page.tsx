@@ -1,5 +1,15 @@
 import { redirect } from "next/navigation";
 
-export default async function Page() {
-    redirect(process.env.NEXT_PUBLIC_DISCORD_LOGIN_URL!);
+interface LoginPageProps {
+    searchParams: Promise<{ code: string }>;
+};
+
+export default async function LoginPage({
+    searchParams,
+}: LoginPageProps) {
+    const { code } = await searchParams;
+    if (!code) {
+        return redirect('/platform');
+    }
+    redirect(`/platform?code=${code}`);
 }

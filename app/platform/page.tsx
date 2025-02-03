@@ -1,43 +1,33 @@
-import { getDiscordData } from "@/lib/discord-data";
-import { redirect } from "next/navigation";
+import { getSessionData } from "@/lib/session";
+import { Ban } from "lucide-react";
+import TMGLogo from "../tmg-logo";
+import CreateDropdown from "./create-dropdown";
+import LogOutButton from "./log-out-button";
 
-export interface PageProps {
-    searchParams: Promise<{ code?: string }>;
-}
-
-
-export default async function Page({
-    searchParams
-}: PageProps) {
-    const { code } = await searchParams;
-    if (!code) {
-        redirect("/login");
-    }
-    try {
-        const { user, roles } = await getDiscordData(code);
-        const username = user.username;
-        if (!roles.isDiscordGuildMember) {
-            return (
-                <div>
-                    <h1>¡Hola, {username}!</h1>
-                    <p>¡Debes ser miembro de nuestro servidor de Discord para poder acceder a la plataforma!</p>
-                </div>
-            );
-        }
+export default async function PlatformPage() {
+    const { user, roles } = (await getSessionData())!;
+    const { username } = user;
+    const { isDiscordGuildMember, isMathLikeUserId, isMathHelper, isPhysicsHelper, isChemistryHelper, isBiologyHelper, isComputerScienceHelper } = roles;
+    if (!isDiscordGuildMember) {
         return (
-            <div>
-                <h1>¡Hola, {username}!</h1>
-                <p>¡Bienvenido a la plataforma!</p>
-                {roles.isMathHelper && <p>¡Eres un ayudante de matemáticas!</p>}
-                {roles.isPhysicsHelper && <p>¡Eres un ayudante de física!</p>}
-                {roles.isChemistryHelper && <p>¡Eres un ayudante de química!</p>}
-                {roles.isBiologyHelper && <p>¡Eres un ayudante de biología!</p>}
-                {roles.isComputerScienceHelper && <p>¡Eres un ayudante de ciencias de la computación!</p>}
-                {roles.isMathLikeUserId && <p>¡Eres MathLike!</p>}
+            <div className="flex items-center justify-center h-screen gap-4">
+                <Ban className="text-red-500 text-4xl" />
+                <h1 className="text-4xl font-bold">Debes ser miembro del servidor de Discord para acceder a la plataforma</h1>
             </div>
         );
-    } catch (error) {
-        console.error(error);
-        redirect("/login");
     }
+    return (
+        <div className="flex items-center h-screen flex-col gap-4 pt-4">
+            <div className="flex items-center">
+                <TMGLogo size={90} />
+                <h1 className="text-4xl font-bold">The Math Guys</h1>
+            </div>
+            <h2 className="text-2xl font-bold mt-4">¡Hola, {username}!</h2>
+            <p className="text-lg text-center">¿Qué te gustaría hacer hoy?</p>
+            <div className="flex gap-4 mt-4">
+                {(isMathHelper || isComputerScienceHelper || isPhysicsHelper || isBiologyHelper || isChemistryHelper || isMathLikeUserId) && <CreateDropdown isMathHelper={isMathHelper!} isPhysicsHelper={isPhysicsHelper!} isChemistryHelper={isChemistryHelper!} isBiologyHelper={isBiologyHelper!} isComputerScienceHelper={isComputerScienceHelper!} isMathLikeUserId={isMathLikeUserId!} />}
+                <LogOutButton />
+            </div>
+        </div>
+    );
 }
