@@ -88,9 +88,7 @@ export default async function Page({
     }
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="text-4xl font-bold">{title}</h1>
-            <p className="text-lg">{description}</p>
-            <Editor htmlContent={html_content} />
+            <Editor htmlContent={html_content} title={title} description={description} />
         </div>
     )
 }

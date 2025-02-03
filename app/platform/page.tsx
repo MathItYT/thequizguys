@@ -3,6 +3,7 @@ import { Ban } from "lucide-react";
 import TMGLogo from "../tmg-logo";
 import CreateDropdown from "./create-dropdown";
 import LogOutButton from "./log-out-button";
+import QuizList from "./quiz-list";
 
 export default async function PlatformPage() {
     const { user, roles } = (await getSessionData())!;
@@ -28,6 +29,7 @@ export default async function PlatformPage() {
                 {(isMathHelper || isComputerScienceHelper || isPhysicsHelper || isBiologyHelper || isChemistryHelper || isMathLikeUserId) && <CreateDropdown isMathHelper={isMathHelper!} isPhysicsHelper={isPhysicsHelper!} isChemistryHelper={isChemistryHelper!} isBiologyHelper={isBiologyHelper!} isComputerScienceHelper={isComputerScienceHelper!} isMathLikeUserId={isMathLikeUserId!} />}
                 <LogOutButton />
             </div>
+            <QuizList roles={roles} />
         </div>
     );
 }
