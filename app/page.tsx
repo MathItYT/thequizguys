@@ -1,5 +1,5 @@
-import { LoginButton } from "./login-button";
-import TMGLogo from "./tmg-logo";
+import { LoginButton } from "../components/login-button";
+import TMGLogo from "../components/tmg-logo";
 
 export default function Home() {
   return (

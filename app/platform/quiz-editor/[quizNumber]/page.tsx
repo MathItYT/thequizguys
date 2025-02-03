@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { Ban } from "lucide-react";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import { Editor } from "./editor";
+import { Editor } from "../../../../components/editor";
 import { getSessionData } from "@/lib/session";
 
 interface QuizPageProps {
@@ -37,7 +37,7 @@ export default async function Page({
             </div>
         );
     }
-    const { title, html_content, description, subject } = data![0];
+    const { title, html_content, description, subject, public: isPublic } = data![0];
     if (!session.roles.isMathHelper && !session.roles.isPhysicsHelper && !session.roles.isChemistryHelper && !session.roles.isBiologyHelper && !session.roles.isComputerScienceHelper && !session.roles.isMathLikeUserId) {
         return (
             <div className="flex items-center justify-center h-screen gap-4">
@@ -88,7 +88,7 @@ export default async function Page({
     }
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <Editor htmlContent={html_content} title={title} description={description} />
+            <Editor htmlContent={html_content} title={title} description={description} subject={subject} id={id} isPublic={isPublic} />
         </div>
     )
 }

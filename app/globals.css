@@ -70,3 +70,39 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.tiptap:focus {
+  outline: none;
+}
+
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-2xl font-bold;
+}
+
+h3 {
+  @apply text-xl font-bold;
+}
+
+p {
+  @apply text-lg;
+}
+
+:not(pre) > code {
+  @apply font-mono bg-slate-700 text-slate-100 p-1 rounded;
+}
+
+pre {
+  @apply font-mono bg-slate-700 text-slate-100 p-1 rounded;
+}
+
+ul {
+  @apply list-disc pl-4;
+}
+
+ol {
+  @apply list-decimal pl-4;
+}

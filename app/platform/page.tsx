@@ -1,9 +1,9 @@
 import { getSessionData } from "@/lib/session";
 import { Ban } from "lucide-react";
-import TMGLogo from "../tmg-logo";
-import CreateDropdown from "./create-dropdown";
-import LogOutButton from "./log-out-button";
-import QuizList from "./quiz-list";
+import TMGLogo from "../../components/tmg-logo";
+import CreateDropdown from "../../components/create-dropdown";
+import LogOutButton from "../../components/log-out-button";
+import QuizList from "../../components/quiz-list";
 
 export default async function PlatformPage() {
     const { user, roles } = (await getSessionData())!;

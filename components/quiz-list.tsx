@@ -47,9 +47,10 @@ export default async function QuizList({
         return false;
     };
     const publicLessons = data!.filter(lessonFilter);
+    publicLessons.sort((a, b) => a.id - b.id);
     return (
-        <div className="mt-8">
-            <Carousel>
+        <div className="mt-8 flex items-center flex-col gap-4">
+            <Carousel className="w-3/5">
                 <CarouselContent>
                     {publicLessons.map((lesson) => (
                         <CarouselItem key={lesson.id}>
@@ -59,6 +60,10 @@ export default async function QuizList({
                                     <CardDescription>{lesson.description}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
+                                    <div className="flex justify-start gap-4">
+                                        <p className="text-sm"><b>Materia:</b> {lesson.subject}</p>
+                                    </div>
+                                    <div className="flex justify-end gap-4">
                                     {(
                                         ((roles.isMathHelper || roles.isMathLikeUserId) && lesson.subject === 'Matemáticas')
                                         || ((roles.isPhysicsHelper || roles.isMathLikeUserId) && lesson.subject === 'Física')
@@ -70,6 +75,12 @@ export default async function QuizList({
                                             Editar
                                         </Link>
                                         </Button>}
+                                        <Button>
+                                        <Link href={`/platform/view/${lesson.id}`}>
+                                            Ver
+                                        </Link>
+                                        </Button>
+                                    </div>
                                 </CardContent>
                             </Card>
                         </CarouselItem>
