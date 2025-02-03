@@ -28,15 +28,21 @@ export function Editor({
     id,
     isPublic
 }: EditorProps) {
+    function autoSizeDescription() {
+        descriptionRef.current!.style.height = descriptionRef.current!.scrollHeight + 'px';
+    }
     const titleRef = React.useRef<HTMLInputElement>(null);
     const descriptionRef = React.useRef<HTMLTextAreaElement>(null);
     const [htmlContentState, setHtmlContentState] = React.useState<string>(htmlContent);
     const { toast } = useToast();
+    React.useLayoutEffect(autoSizeDescription, [description]);
     return (
-        <>
-            <div className="flex flex-col gap-4 w-4/5 mb-5">
-                <Input ref={titleRef} defaultValue={title} placeholder="Ponle un título a tu quiz" className="text-5xl font-bold" />
-                <Textarea ref={descriptionRef} defaultValue={description} placeholder="Describe tu quiz" className="text-lg" />
+        <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex flex-col gap-4 w-4/5 my-5">
+                <Input ref={titleRef} defaultValue={title} placeholder="Ponle un título a tu quiz" className="text-2xl md:text-2xl font-bold w-full" />
+                <Textarea ref={descriptionRef} defaultValue={description} placeholder="Describe tu quiz" onInput={() => {
+                    autoSizeDescription();
+                }} className="text-lg md:text-lg w-full overflow-hidden resize-none" />
             </div>
             <div className="w-4/5 mb-5">
                 <Tiptap initialHtml={htmlContent} onHtmlChange={setHtmlContentState} />
@@ -114,6 +120,6 @@ export function Editor({
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
-        </>
+        </div>
     );
 };

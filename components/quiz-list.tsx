@@ -50,11 +50,11 @@ export default async function QuizList({
     publicLessons.sort((a, b) => a.id - b.id);
     return (
         <div className="mt-8 flex items-center flex-col gap-4">
-            <Carousel className="w-3/5">
+            <Carousel className="w-60">
                 <CarouselContent>
                     {publicLessons.map((lesson) => (
                         <CarouselItem key={lesson.id}>
-                            <Card>
+                            <Card className="w-56">
                                 <CardHeader>
                                     <CardTitle>{lesson.title}</CardTitle>
                                     <CardDescription>{lesson.description}</CardDescription>
