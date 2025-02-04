@@ -92,11 +92,12 @@ p {
 }
 
 :not(pre) > code {
-  @apply font-mono bg-slate-700 text-slate-100 p-1 rounded;
+  @apply font-mono bg-slate-800 text-slate-100 p-1 rounded;
 }
 
 pre {
-  @apply font-mono bg-slate-700 text-slate-100 p-1 rounded;
+  /* Center the code block */
+  @apply font-mono bg-slate-800 text-slate-100 p-1 rounded w-fit max-w-full mx-auto;
 }
 
 ul {

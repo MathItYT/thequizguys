@@ -10,9 +10,10 @@ import CodeBlock from './code-block';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { all, createLowlight } from 'lowlight';
 import Link from '@tiptap/extension-link';
-import { Link as LinkIcon } from 'lucide-react';
+import { Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
+import Image from '@tiptap/extension-image';
 import React from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 
@@ -28,6 +29,7 @@ function MenuBar() {
 
   const { toast } = useToast();
   const linkRef = React.useRef<HTMLInputElement>(null);
+  const imageFileRef = React.useRef<HTMLInputElement>(null);
 
   if (!editor) {
     return null
@@ -132,11 +134,51 @@ function MenuBar() {
           <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock({ language: 'c' }).run()}>
             C
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock({ language: 'latex' }).run()}>
+            LaTeX
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
             Desactivar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button className="bg-slate-400 text-slate-800">
+            <ImageIcon />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Insertar imagen</AlertDialogTitle>
+            <AlertDialogDescription>Sube el archivo de la imagen que quieres insertar</AlertDialogDescription>
+          </AlertDialogHeader>
+          <Input type="file" datatype='image/*' ref={imageFileRef} />
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => {
+              if (!imageFileRef.current?.files) {
+                toast({
+                  title: 'Archivo vacío',
+                  description: 'Por favor, selecciona un archivo',
+                  variant: 'destructive',
+                });
+                return;
+              }
+              const files = imageFileRef.current.files;
+              const reader = new FileReader();
+              reader.onload = () => {
+                editor.chain().focus().setImage({ src: reader.result as string }).run();
+              }
+              reader.readAsDataURL(files[0]);
+            }}>
+              Aceptar
+            </AlertDialogAction>
+            <AlertDialogCancel>
+              Cancelar
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
@@ -153,10 +195,16 @@ export default function Tiptap({ initialHtml, onHtmlChange }: TiptapProps) {
       lowlight,
     }),
     Link,
+    Image.configure({
+      inline: false,
+      allowBase64: true,
+    })
   ];
   return (
     <>
-      <EditorProvider slotBefore={<MenuBar />} content={initialHtml.length > 0 ? initialHtml : '<p>Comienza a escribir...</p>'} extensions={extensions} onUpdate={({ editor }) => onHtmlChange(editor.getHTML())} />
+      <EditorProvider slotBefore={<MenuBar />} content={initialHtml.length > 0 ? initialHtml : '<p>Comienza a escribir...</p>'} extensions={extensions} onUpdate={({ editor }) => {
+        onHtmlChange(editor.getHTML());
+      }} />
     </>
   )
 }
