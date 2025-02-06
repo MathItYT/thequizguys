@@ -15,13 +15,13 @@ export default function TextPollEditor({ content, updateContent }: TextPollEdito
                     ...content,
                     question: html
                 });
-            }} noImages={true} noLinks={true} />
+            }} />
             <Tiptap initialHtml={content.correctAnswer} onHtmlChange={(html) => {
                 updateContent({
                     ...content,
                     correctAnswer: html
                 });
-            }} noImages={true} noLinks={true} />
+            }} />
             <DateTimePicker24h initialDate={content.finishesAt ? new Date(content.finishesAt) : null} onDateChange={(date) => {
                 updateContent({
                     ...content,
