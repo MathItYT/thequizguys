@@ -11,7 +11,15 @@ export async function newContent(subject: string) {
         return;
     }
     const quizNumber = data!.reduce((acc, curr) => Math.max(acc, curr.id), 0) + 1;
-    const { error: insertError } = await supabase.from("Lessons").insert({ id: quizNumber, subject, title: `Quiz de ${subject} #${quizNumber}`, html_content: "", public: false, description: `Este es un quiz de ${subject} creado por un miembro del servidor de Discord.` });
+    const quiz = {
+        id: quizNumber,
+        subject,
+        title: `Quiz de ${subject} #${quizNumber}`,
+        contents: [{ type: "text", content: "¡Bienvenido a tu nuevo quiz!", id: 0 }],
+        public: false,
+        description: `Este es un quiz de ${subject} creado por un miembro del servidor de Discord.`
+    }
+    const { error: insertError } = await supabase.from("Lessons").insert(quiz);
     if (insertError) {
         console.error(insertError);
         return;

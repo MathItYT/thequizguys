@@ -3,6 +3,7 @@ import { Ban } from "lucide-react";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { Editor } from "../../../../components/editor";
 import { getSessionData } from "@/lib/session";
+import { Content } from "@/lib/content-definition";
 
 interface QuizPageProps {
     params: Promise<{
@@ -15,7 +16,7 @@ interface QuizData {
     created_at: string;
     subject: string;
     title: string;
-    html_content: string;
+    contents: Content[];
     public: boolean;
     description: string;
 }
@@ -37,7 +38,15 @@ export default async function Page({
             </div>
         );
     }
-    const { title, html_content, description, subject, public: isPublic } = data![0];
+    if (data!.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-screen gap-4">
+                <Ban className="text-red-500 text-4xl" />
+                <h1 className="text-4xl font-bold">No se encontró el quiz</h1>
+            </div>
+        );
+    }
+    const { title, contents, description, subject, public: isPublic } = data![0];
     if (!session.roles.isMathHelper && !session.roles.isPhysicsHelper && !session.roles.isChemistryHelper && !session.roles.isBiologyHelper && !session.roles.isComputerScienceHelper && !session.roles.isMathLikeUserId) {
         return (
             <div className="flex items-center justify-center h-screen gap-4">
@@ -88,7 +97,7 @@ export default async function Page({
     }
     return (
         <div className="flex flex-col items-center w-full">
-            <Editor htmlContent={html_content} title={title} description={description} subject={subject} id={id} isPublic={isPublic} />
+            <Editor contents={contents} title={title} description={description} subject={subject} id={id} isPublic={isPublic} />
         </div>
     )
 }

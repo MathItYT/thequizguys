@@ -15,6 +15,7 @@ export default function TMGLogo({
               width={size}
               height={size}
               priority
+              className="m-0 p-0"
             />
         </div>
     );

@@ -76,9 +76,9 @@ export default async function QuizList({
                                         </Link>
                                         </Button>}
                                         <Button>
-                                        <Link href={`/platform/view/${lesson.id}`}>
-                                            Ver
-                                        </Link>
+                                            <Link href={`/platform/view/${lesson.id}/0`}>
+                                                Ver
+                                            </Link>
                                         </Button>
                                     </div>
                                 </CardContent>

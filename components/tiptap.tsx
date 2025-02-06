@@ -37,27 +37,27 @@ function MenuBar() {
 
   return (
     <div className="flex flex-wrap gap-2 mb-5">
-      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={(editor.isActive('heading', { level: 1 }) ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800')}>
+      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={(editor.isActive('heading', { level: 1 }) ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800')}>
         <h1>Título</h1>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <h2>Subtítulo</h2>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <h3>Subsubtítulo</h3>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <b>N</b>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <i>i</i>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <s>S</s>
       </Button>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className={(editor.isActive('link') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800')}>
+          <Button className={(editor.isActive('link') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800')}>
             <LinkIcon />
           </Button>
         </AlertDialogTrigger>
@@ -90,7 +90,7 @@ function MenuBar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Button onClick={() => editor.chain().focus().toggleCode().run()} className={editor.isActive('code') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleCode().run()} className={editor.isActive('code') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <code>Código</code>
       </Button>
       <Button onClick={() => editor.chain().focus().insertContent('$$\\sum$$', { applyInputRules: true }).run()} className="bg-slate-400 text-slate-800">
@@ -103,13 +103,13 @@ function MenuBar() {
           f(x)
         </KaTeX>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <ul>
           <li>Esto</li>
           <li>Y esto</li>
         </ul>
       </Button>
-      <Button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800'}>
+      <Button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <ol>
           <li>Primero</li>
           <li>Segundo</li>
@@ -117,7 +117,7 @@ function MenuBar() {
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className={(editor.isActive('codeBlock') ? 'bg-violet-600 text-white' : 'bg-slate-400 text-slate-800')}>
+          <Button className={(editor.isActive('codeBlock') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800')}>
             <CodeBlock language='python'>{'print("Hola, mundo")'}</CodeBlock>
           </Button>
         </DropdownMenuTrigger>
@@ -169,7 +169,12 @@ function MenuBar() {
               reader.onload = () => {
                 editor.chain().focus().setImage({ src: reader.result as string }).run();
               }
-              reader.readAsDataURL(files[0]);
+              for (let i = 0; i < files.length; i++) {
+                if (files[i].type.startsWith('image/')) {
+                  reader.readAsDataURL(files[i]);
+                  break;
+                }
+              }
             }}>
               Aceptar
             </AlertDialogAction>

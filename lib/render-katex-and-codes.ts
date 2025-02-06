@@ -1,14 +1,8 @@
-'use client'
-
 import React from "react";
-import katex from "katex";
 import highlight from "highlight.js";
+import katex from "katex";
 
-interface ViewQuizComponentProps {
-    html: string;
-}
-
-function renderKatexAndCodes(ref: React.RefObject<HTMLDivElement | null>) {
+export default function renderKatexAndCodes(ref: React.RefObject<HTMLDivElement | null>) {
     if (typeof window === "undefined") {
         return;
     }
@@ -39,20 +33,4 @@ function renderKatexAndCodes(ref: React.RefObject<HTMLDivElement | null>) {
         }
     }
     iterateOverElements(ref.current!);
-}
-
-export default function ViewQuizComponent({
-    html
-}: ViewQuizComponentProps) {
-    const ref = React.useRef<HTMLDivElement>(null);
-    React.useEffect(() => {
-        if (ref.current) {
-            renderKatexAndCodes(ref);
-        }
-    }, [ref]);
-    return (
-        <div ref={ref} className="flex justify-center h-screen mt-10">
-            <div dangerouslySetInnerHTML={{ __html: html }} className="w-4/5" />
-        </div>
-    );
 }

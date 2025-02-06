@@ -29,27 +29,27 @@ export default function CreateDropdown({
             <DropdownMenuContent>
                 {(isMathHelper || isMathLikeUserId) && <DropdownMenuItem onClick={
                     async () => {
-                        newContent('Matemáticas');
+                        await newContent('Matemáticas');
                     }
                 }>Quiz de matemáticas</DropdownMenuItem>}
                 {(isPhysicsHelper || isMathLikeUserId) && <DropdownMenuItem onClick={
                     async () => {
-                        newContent('Física');
+                        await newContent('Física');
                     }
                 }>Quiz de física</DropdownMenuItem>}
                 {(isChemistryHelper || isMathLikeUserId) && <DropdownMenuItem onClick={
                     async () => {
-                        newContent('Química');
+                        await newContent('Química');
                     }
                 }>Quiz de química</DropdownMenuItem>}
                 {(isBiologyHelper || isMathLikeUserId) && <DropdownMenuItem onClick={
                     async () => {
-                        newContent('Biología');
+                        await newContent('Biología');
                     }
                 }>Quiz de biología</DropdownMenuItem>}
                 {(isComputerScienceHelper || isMathLikeUserId) && <DropdownMenuItem onClick={
                     async () => {
-                        newContent('Ciencias de la computación');
+                        await newContent('Ciencias de la computación');
                     }
                 }>Quiz de ciencias de la computación</DropdownMenuItem>}
             </DropdownMenuContent>
