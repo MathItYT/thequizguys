@@ -109,7 +109,7 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
         </AlertDialog>
         }
         <Toggle onClick={() => editor.chain().focus().toggleCode().run()} pressed={editor.isActive('code')}>
-          <code className='bg-transparent'>Código</code>
+          <code className='bg-transparent text-slate-950 dark:text-slate-100'>Código</code>
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleBulletList().run()} pressed={editor.isActive('bulletList')}>
           <ul>
@@ -126,7 +126,7 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Toggle pressed={editor.isActive('codeBlock')}>
-              <CodeBlock className='bg-transparent' language='python'>{'print("Hola, mundo")'}</CodeBlock>
+              <CodeBlock className='bg-transparent text-slate-950 dark:text-slate-100' language='python'>{'print("Hola, mundo")'}</CodeBlock>
             </Toggle>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
