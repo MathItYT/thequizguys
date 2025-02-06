@@ -20,19 +20,19 @@ function isAuthorized(isPublic: boolean, subject: string, roles: DiscordData["ro
     if (!isPublic && !roles.isMathHelper && !roles.isPhysicsHelper && !roles.isChemistryHelper && !roles.isBiologyHelper && !roles.isComputerScienceHelper && !roles.isMathLikeUserId) {
         return false;
     }
-    if (subject === 'Matemáticas' && !roles.isMathHelper && !roles.isMathLikeUserId) {
+    if (subject === 'Matemáticas' && !roles.isMathHelper && !roles.isMathLikeUserId && !isPublic) {
         return false;
     }
-    if (subject === 'Física' && !roles.isPhysicsHelper && !roles.isMathLikeUserId) {
+    if (subject === 'Física' && !roles.isPhysicsHelper && !roles.isMathLikeUserId && !isPublic) {
         return false;
     }
-    if (subject === 'Química' && !roles.isChemistryHelper && !roles.isMathLikeUserId) {
+    if (subject === 'Química' && !roles.isChemistryHelper && !roles.isMathLikeUserId && !isPublic) {
         return false;
     }
-    if (subject === 'Biología' && !roles.isBiologyHelper && !roles.isMathLikeUserId) {
+    if (subject === 'Biología' && !roles.isBiologyHelper && !roles.isMathLikeUserId && !isPublic) {
         return false;
     }
-    if (subject === 'Ciencias de la Computación' && !roles.isComputerScienceHelper && !roles.isMathLikeUserId) {
+    if (subject === 'Ciencias de la Computación' && !roles.isComputerScienceHelper && !roles.isMathLikeUserId && !isPublic) {
         return false;
     }
     return true;

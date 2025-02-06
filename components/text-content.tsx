@@ -3,6 +3,7 @@
 import { TextContent } from "@/lib/content-definition";
 import renderKatexAndCodes from "@/lib/render-katex-and-codes";
 import React from "react";
+import { Card } from "./ui/card";
 
 interface ViewQuizComponentProps {
     content: TextContent;
@@ -15,6 +16,8 @@ export default function ViewQuizComponent({ content }: ViewQuizComponentProps) {
         renderKatexAndCodes(ref);
     });
     return (
-        <div ref={ref} dangerouslySetInnerHTML={{ __html: content.content }} className="flex flex-col gap-4 w-4/5 mx-auto" />
+        <Card className="w-4/5 mx-auto p-10">
+            <div ref={ref} dangerouslySetInnerHTML={{ __html: content.content }} className="flex flex-col gap-4" />
+        </Card>
     );
 }
