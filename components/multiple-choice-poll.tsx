@@ -28,7 +28,7 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
             <CardContent>
                 <CardHeader>
                     <CardTitle>Selección múltiple</CardTitle>
-                    <CardDescription className="text-slate-200" ref={questionRef} dangerouslySetInnerHTML={{ __html: content.question }} />
+                    <CardDescription className="text-slate-800 dark:text-slate-200" ref={questionRef} dangerouslySetInnerHTML={{ __html: content.question }} />
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-1 gap-4" ref={choicesRef}>
@@ -40,7 +40,7 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                                 <CardContent>
                                     <CardHeader>
                                         <CardTitle>Opción {index + 1}</CardTitle>
-                                        <CardDescription className="text-slate-200" dangerouslySetInnerHTML={{ __html: choice.content }} />
+                                        <CardDescription className="text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: choice.content }} />
                                     </CardHeader>
                                     {answered && choice.correct && selected[index] && (
                                         <div className="flex justify-center">
