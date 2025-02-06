@@ -65,7 +65,7 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                         <Button onClick={() => {
                             setAnswered(true);
                         }}
-                            disabled={!selected.some((selected) => selected || answered)}
+                            disabled={!selected.some((selected) => selected) || answered}
                         >Enviar</Button>
                     </CardFooter>
                 </CardContent>
