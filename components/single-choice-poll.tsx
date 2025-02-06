@@ -64,7 +64,9 @@ export default function SingleChoicePoll({ content }: SingleChoicePollProps) {
                     <CardFooter className="my-4">
                         <Button onClick={() => {
                             setAnswered(true);
-                        }}>Enviar</Button>
+                        }}
+                            disabled={selected === null}
+                        >Enviar</Button>
                     </CardFooter>
                 </CardContent>
             </CardContent>

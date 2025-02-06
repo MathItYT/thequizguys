@@ -36,20 +36,25 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                             <Card key={choice.id} onClick={() => {
                                 if (answered) return;
                                 setSelected(selected => selected.map((_, i) => i === index ? !selected[i] : selected[i]));
-                            }} className={!answered ? (selected[index] ? "bg-sky-700 border-sky-500" : "") : (selected[index] === choice.correct ? "bg-emerald-600 border-emerald-500" : "bg-rose-600 border-rose-500")}>
+                            }} className={!answered ? (selected[index] ? "bg-sky-700 border-sky-500" : "") : (choice.correct ? "bg-emerald-600 border-emerald-500" : "bg-rose-600 border-rose-500")}>
                                 <CardContent>
                                     <CardHeader>
                                         <CardTitle>Opción {index + 1}</CardTitle>
                                         <CardDescription className="text-slate-200" dangerouslySetInnerHTML={{ __html: choice.content }} />
                                     </CardHeader>
-                                    {answered && choice.correct === selected[index] && (
+                                    {answered && choice.correct && selected[index] && (
                                         <div className="flex justify-center">
                                             <CardDescription className="text-emerald-200"><p className="text-sm">¡Respuesta correcta!</p></CardDescription>
                                         </div>
                                     )}
-                                    {answered && choice.correct !== selected[index] && (
+                                    {answered && !choice.correct && selected[index] && (
                                         <div className="flex justify-center">
                                             <CardDescription className="text-rose-200"><p className="text-sm">Incorrecto.</p><div dangerouslySetInnerHTML={ { __html: choice.explanation } } /></CardDescription>
+                                        </div>
+                                    )}
+                                    {answered && choice.correct && !selected[index] && (
+                                        <div className="flex justify-center">
+                                            <CardDescription className="text-emerald-200"><p className="text-sm">Respuesta correcta.</p><div dangerouslySetInnerHTML={ { __html: choice.explanation } } /></CardDescription>
                                         </div>
                                     )}
                                 </CardContent>
@@ -59,7 +64,9 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                     <CardFooter className="my-4">
                         <Button onClick={() => {
                             setAnswered(true);
-                        }}>Enviar</Button>
+                        }}
+                            disabled={!selected.some((selected) => selected)}
+                        >Enviar</Button>
                     </CardFooter>
                 </CardContent>
             </CardContent>
