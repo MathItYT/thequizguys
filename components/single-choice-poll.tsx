@@ -27,7 +27,7 @@ export default function SingleChoicePoll({ content }: SingleChoicePollProps) {
         <Card className="w-4/5 mx-auto">
             <CardContent>
                 <CardHeader>
-                    <CardTitle>Selección múltiple</CardTitle>
+                    <CardTitle>Selección única</CardTitle>
                     <CardDescription className="text-slate-200" ref={questionRef} dangerouslySetInnerHTML={{ __html: content.question }} />
                 </CardHeader>
                 <CardContent>
