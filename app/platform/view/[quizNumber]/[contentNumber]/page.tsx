@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import MultipleChoicePoll from "@/components/multiple-choice-poll";
 import SingleChoicePoll from "@/components/single-choice-poll";
+import TextPoll from "@/components/text-poll";
 
 interface ViewPageProps {
     params: Promise<{
@@ -116,6 +117,20 @@ export default async function ViewPage({
             <div>
                 <div className="mt-8">
                     <SingleChoicePoll content={content} /></div>
+                <div className="flex justify-start py-8 px-20">
+                    {i > 0 && <Button><Link href={`/platform/view/${quizNumber}/${i - 1}`}>Anterior</Link></Button>}
+                </div>
+                <div className="flex justify-end py-8 px-20">
+                    {i < contentLength - 1 && <Button><Link href={`/platform/view/${quizNumber}/${i + 1}`}>Siguiente</Link></Button>}
+                </div>
+            </div>
+        );
+    }
+    if (content.type === 'text-poll') {
+        return (
+            <div>
+                <div className="mt-8">
+                    <TextPoll content={content} /></div>
                 <div className="flex justify-start py-8 px-20">
                     {i > 0 && <Button><Link href={`/platform/view/${quizNumber}/${i - 1}`}>Anterior</Link></Button>}
                 </div>

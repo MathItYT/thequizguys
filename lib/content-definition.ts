@@ -21,4 +21,12 @@ export interface SingleChoicePollContent {
     id: number;
 }
 
-export type Content = TextContent | MultipleChoicePollContent | SingleChoicePollContent;
+export interface TextPollContent {
+    type: 'text-poll';
+    question: string;
+    correctAnswer: string;
+    finishesAt: number | null;
+    id: number;
+}
+
+export type Content = TextContent | MultipleChoicePollContent | SingleChoicePollContent | TextPollContent;

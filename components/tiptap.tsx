@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
-import { useCurrentEditor, EditorProvider } from '@tiptap/react'
+import { useCurrentEditor, EditorProvider, Extension } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import MathExtension from '@aarkue/tiptap-math-extension'
 import KaTeX from './katex';
@@ -20,11 +20,13 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 interface TiptapProps {
   initialHtml: string;
   onHtmlChange: (html: string) => void;
+  noImages?: boolean;
+  noLinks?: boolean;
 }
 
 const lowlight = createLowlight(all);
 
-function MenuBar() {
+function MenuBar({ noImages, noLinks }: { noImages?: boolean, noLinks?: boolean }) {
   const { editor } = useCurrentEditor();
 
   const { toast } = useToast();
@@ -55,7 +57,9 @@ function MenuBar() {
       <Button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <s>S</s>
       </Button>
-      <AlertDialog>
+      {
+        !noLinks &&
+        <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button className={(editor.isActive('link') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800')}>
             <LinkIcon />
@@ -90,6 +94,7 @@ function MenuBar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      }
       <Button onClick={() => editor.chain().focus().toggleCode().run()} className={editor.isActive('code') ? 'bg-violet-600 hover:bg-violet-700 text-white' : 'bg-slate-400 hover:bg-slate-500 text-slate-800'}>
         <code>Código</code>
       </Button>
@@ -142,7 +147,9 @@ function MenuBar() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialog>
+      {
+        !noImages &&
+        <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button className="bg-slate-400 text-slate-800">
             <ImageIcon />
@@ -184,11 +191,12 @@ function MenuBar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      }
     </div>
   )
 }
 
-export default function Tiptap({ initialHtml, onHtmlChange }: TiptapProps) {
+export default function Tiptap({ initialHtml, onHtmlChange, noImages, noLinks }: TiptapProps) {
   const extensions = [
     StarterKit.configure({
       heading: {
@@ -199,15 +207,15 @@ export default function Tiptap({ initialHtml, onHtmlChange }: TiptapProps) {
     CodeBlockLowlight.configure({
       lowlight,
     }),
-    Link,
-    Image.configure({
+    noLinks ? null : Link,
+    noImages ? null : Image.configure({
       inline: false,
       allowBase64: true,
     })
-  ];
+  ].filter(extension => extension !== null) as Extension[];
   return (
     <>
-      <EditorProvider slotBefore={<MenuBar />} content={initialHtml.length > 0 ? initialHtml : '<p>Comienza a escribir...</p>'} extensions={extensions} onUpdate={({ editor }) => {
+      <EditorProvider slotBefore={<MenuBar noImages={noImages} noLinks={noLinks} />} content={initialHtml.length > 0 ? initialHtml : '<p>Comienza a escribir...</p>'} extensions={extensions} onUpdate={({ editor }) => {
         onHtmlChange(editor.getHTML());
       }} />
     </>

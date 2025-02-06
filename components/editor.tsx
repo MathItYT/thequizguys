@@ -16,6 +16,7 @@ import ReorderableList, { ReorderableItem } from "./reorderable-list";
 import Tiptap from "./tiptap";
 import MultipleChoicePollEditor from "./multiple-choice-poll-editor";
 import SingleChoicePollEditor from "./single-choice-poll-editor";
+import TextPollEditor from "./text-poll-editor";
 
 interface EditorProps {
     contents: Content[];
@@ -57,11 +58,16 @@ export function Editor({
     const addSingleChoicePoll = React.useCallback(() => {
         setNewContents(newContents => [...newContents, { type: 'single-choice-poll', question: '<p>Pregunta</p>', choices: [{content: '<p>Opción 1</p>', id: 0, explanation: '<p>Explicación</p>'}, {content: '<p>Opción 2</p>', id: 1, explanation: '<p>Explicación</p>'}], correctChoice: 0, finishesAt: null, id: Math.max(...newContents.map(content => content.id), 0) + 1 }]);
     }, []);
+    const addTextPoll = React.useCallback(() => {
+        setNewContents(newContents => [...newContents, { type: 'text-poll', question: '<p>Pregunta</p>', correctAnswer: '<p>Respuesta</p>', finishesAt: null, id: Math.max(...newContents.map(content => content.id), 0) + 1 }]);
+    }, []);
     const [items, setItems] = React.useState(newContents.map((content, index) => ({ id: content.id, content: content.type === 'text' ? <Tiptap initialHtml={content.content} onHtmlChange={(html) => {
         setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? { ...item, content: html } : item));
     }} /> : content.type === 'multiple-choice-poll' ? <MultipleChoicePollEditor content={content} updateContent={(newContent) => {
         setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
     }} /> : content.type === 'single-choice-poll' ? <SingleChoicePollEditor content={content} updateContent={(newContent) => {
+        setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
+    }} /> : content.type === 'text-poll' ? <TextPollEditor content={content} updateContent={(newContent) => {
         setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
     }} /> : null, data: content })));
     React.useEffect(() => {
@@ -70,6 +76,8 @@ export function Editor({
         }} /> : content.type === 'multiple-choice-poll' ? <MultipleChoicePollEditor content={content} updateContent={(newContent) => {
             setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
         }} /> : content.type === 'single-choice-poll' ? <SingleChoicePollEditor content={content} updateContent={(newContent) => {
+            setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
+        }} /> : content.type === 'text-poll' ? <TextPollEditor content={content} updateContent={(newContent) => {
             setNewContents(newContents => newContents.map((item, itemIndex) => itemIndex === index ? newContent : item));
         }} /> : null, data: content })));
     }, [newContents]);
@@ -90,6 +98,7 @@ export function Editor({
                     <DropdownMenuItem onClick={addText}>Texto simple</DropdownMenuItem>
                     <DropdownMenuItem onClick={addMultipleChoicePoll}>Encuesta de opción múltiple</DropdownMenuItem>
                     <DropdownMenuItem onClick={addSingleChoicePoll}>Encuesta de opción única</DropdownMenuItem>
+                    <DropdownMenuItem onClick={addTextPoll}>Encuesta de texto</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             <Separator className="w-4/5" />
