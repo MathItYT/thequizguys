@@ -6,7 +6,7 @@ const protectedRoutes = ['/platform']
  
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
-  const isProtectedRoute = protectedRoutes.includes(path)
+  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route))
   const code = req.nextUrl.searchParams.get('code')
   const logOut = req.nextUrl.searchParams.get('logout')
 

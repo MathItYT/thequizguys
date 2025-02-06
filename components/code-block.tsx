@@ -5,12 +5,14 @@ import React from "react";
 interface CodeBlockProps {
     children: string;
     language: string;
+    className?: string;
 }
 
 
 export default function CodeBlock({
     children,
-    language
+    language,
+    className,
 }: CodeBlockProps) {
     const ref = React.useRef<HTMLPreElement>(null);
     React.useEffect(() => {
@@ -20,6 +22,6 @@ export default function CodeBlock({
         }
     });
     return (
-        <pre ref={ref}></pre>
+        <pre ref={ref} className={className}></pre>
     );
 }

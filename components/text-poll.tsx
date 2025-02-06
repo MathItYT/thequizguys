@@ -34,7 +34,7 @@ export default function TextPoll({ content }: TextPollProps) {
                 <div className="flex flex-col px-16">
                     <Tiptap initialHtml={""} onHtmlChange={(html) => {
                         setAnswer(html);
-                    }} noImages={true} noLinks={true} />
+                    }} noImages={true} noLinks={true} noYoutube={true} />
                     {answered && correct === null && (
                         <p className="text-slate-800 dark:text-slate-200">Evaluando...</p>
                     )}
