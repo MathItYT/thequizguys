@@ -4,11 +4,10 @@ import { useCurrentEditor, EditorProvider, Extension } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import MathExtension from '@aarkue/tiptap-math-extension'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import CodeBlock from './code-block';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { all, createLowlight } from 'lowlight';
 import Link from '@tiptap/extension-link';
-import { Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
+import { Link as LinkIcon, Image as ImageIcon, Heading1, Heading2, Heading3, Bold, Italic, Strikethrough, Code, ListOrdered, List } from 'lucide-react';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 import Image from '@tiptap/extension-image';
@@ -53,22 +52,22 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
     <div className='flex flex-col'>
       <div className="flex flex-wrap gap-2">
         <Toggle onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} pressed={editor.isActive('heading', { level: 1 })}>
-          <h1>Título</h1>
+          <Heading1 />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} pressed={editor.isActive('heading', { level: 2 })}>
-          <h2>Subtítulo</h2>
+          <Heading2 />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} pressed={editor.isActive('heading', { level: 3 })}>
-          <h3>Subsubtítulo</h3>
+          <Heading3 />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleBold().run()} pressed={editor.isActive('bold')}>
-          <b>N</b>
+          <Bold />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleItalic().run()} pressed={editor.isActive('italic')}>
-          <i>i</i>
+          <Italic />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleStrike().run()} pressed={editor.isActive('strike')}>
-          <s>S</s>
+          <Strikethrough />
         </Toggle>
         {
           !noLinks &&
@@ -108,25 +107,16 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
           </AlertDialogContent>
         </AlertDialog>
         }
-        <Toggle onClick={() => editor.chain().focus().toggleCode().run()} pressed={editor.isActive('code')}>
-          <code className='bg-transparent text-slate-950 dark:text-slate-100'>Código</code>
-        </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleBulletList().run()} pressed={editor.isActive('bulletList')}>
-          <ul>
-            <li>Esto</li>
-            <li>Y esto</li>
-          </ul>
+          <List />
         </Toggle>
         <Toggle onClick={() => editor.chain().focus().toggleOrderedList().run()} pressed={editor.isActive('orderedList')}>
-          <ol>
-            <li>Primero</li>
-            <li>Segundo</li>
-          </ol>
+          <ListOrdered />
         </Toggle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Toggle pressed={editor.isActive('codeBlock')}>
-              <CodeBlock className='bg-transparent text-slate-950 dark:text-slate-100' language='python'>{'print("Hola, mundo")'}</CodeBlock>
+              <Code />
             </Toggle>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -145,7 +135,7 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
             <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock({ language: 'latex' }).run()}>
               LaTeX
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+            <DropdownMenuItem onClick={() => editor.isActive('codeBlock') && editor.chain().focus().toggleCodeBlock().run()}>
               Desactivar
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -249,6 +239,7 @@ function MenuBar({ noImages, noLinks, noYoutube }: MenuBarProps) {
       </div>
       <ul className='mb-5'>
         <li><p className='text-sm'>Ingresa <KaTeX inline>\LaTeX</KaTeX> con <code>$...$</code> para fórmulas en línea y <code>$$...$$</code> para fórmulas en bloque</p></li>
+        <li><p className='text-sm'>Ingresa código en la misma línea con <code>`...`</code></p></li>
         {!noLinks && <li><p className='text-sm'>Para agregar una URL a un texto, selecciónalo de inicio a fin y presiona el botón de enlace</p></li>}
       </ul>
     </div>

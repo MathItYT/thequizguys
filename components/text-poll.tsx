@@ -6,29 +6,26 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import React from "react";
 import { Button } from "./ui/button";
 import evaluateTextAnswer from "@/lib/evaluate-text-answer";
-import renderKatexAndCodes from "@/lib/render-katex-and-codes";
+import RenderKatexAndCodes from "./render-katex-and-codes";
 
 interface TextPollProps {
     content: TextPollContent;
 }
 
 export default function TextPoll({ content }: TextPollProps) {
-    const ref = React.useRef<HTMLDivElement>(null);
     const [answer, setAnswer] = React.useState("");
     const [answered, setAnswered] = React.useState<boolean>(false);
     const [correct, setCorrect] = React.useState<boolean | null>(null);
     const [error, setError] = React.useState<boolean>(false);
-    React.useEffect(() => {
-        if (!ref.current) return;
-        renderKatexAndCodes(ref);
-    });
     return (
-        <div className="flex flex-col gap-4 w-4/5 mx-auto" ref={ref}>
+        <div className="flex flex-col gap-4 w-4/5 mx-auto">
             <Card>
                 <CardContent>
                     <CardHeader>
                         <CardTitle>Pregunta de texto</CardTitle>
-                        <CardDescription className="text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: content.question }} />
+                        <CardDescription className="text-slate-800 dark:text-slate-200">
+                            <RenderKatexAndCodes html={content.question} />
+                        </CardDescription>
                     </CardHeader>
                 </CardContent>
                 <div className="flex flex-col px-16">
@@ -43,7 +40,7 @@ export default function TextPoll({ content }: TextPollProps) {
                     )}
                     {answered && correct !== null && (
                         <div className="flex flex-col gap-4">
-                            <p className={correct ? "text-emerald-600" : "text-rose-600"}>{correct ? "¡Respuesta correcta!" : "Respuesta incorrecta."}</p>{!correct && <div className="text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: content.correctAnswer }} />}
+                            <p className={correct ? "text-emerald-600" : "text-rose-600"}>{correct ? "¡Respuesta correcta!" : "Respuesta incorrecta."}</p>{!correct && <RenderKatexAndCodes className="text-slate-800 dark:text-slate-200" html={content.correctAnswer} />}
                         </div>
                     )}
                 </div>

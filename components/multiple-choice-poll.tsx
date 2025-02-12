@@ -3,7 +3,7 @@
 import { MultipleChoicePollContent } from "@/lib/content-definition";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import React from "react";
-import renderKatexAndCodes from "@/lib/render-katex-and-codes";
+import RenderKatexAndCodes from "./render-katex-and-codes";
 import { Button } from "./ui/button";
 
 interface MultipleChoicePollProps {
@@ -12,26 +12,18 @@ interface MultipleChoicePollProps {
 
 export default function MultipleChoicePoll({ content }: MultipleChoicePollProps) {
     const [answered, setAnswered] = React.useState(false);
-    const questionRef = React.useRef<HTMLDivElement>(null);
-    const choicesRef = React.useRef<HTMLDivElement>(null);
     const [selected, setSelected] = React.useState<boolean[]>(new Array(content.choices.length).fill(false));
-    React.useEffect(() => {
-        if (!questionRef.current) return;
-        renderKatexAndCodes(questionRef);
-    });
-    React.useEffect(() => {
-        if (!choicesRef.current) return;
-        renderKatexAndCodes(choicesRef);
-    });
     return (
         <Card className="w-4/5 mx-auto">
             <CardContent>
                 <CardHeader>
                     <CardTitle>Selección múltiple</CardTitle>
-                    <CardDescription className="text-slate-800 dark:text-slate-200" ref={questionRef} dangerouslySetInnerHTML={{ __html: content.question }} />
+                    <CardDescription className="text-slate-800 dark:text-slate-200">
+                        <RenderKatexAndCodes html={content.question} />
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-1 gap-4" ref={choicesRef}>
+                    <div className="grid grid-cols-1 gap-4">
                         {content.choices.map((choice, index) => (
                             <Card key={choice.id} onClick={() => {
                                 if (answered) return;
@@ -40,7 +32,9 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                                 <CardContent>
                                     <CardHeader>
                                         <CardTitle>Opción {index + 1}</CardTitle>
-                                        <CardDescription className="text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: choice.content }} />
+                                        <CardDescription className="text-slate-800 dark:text-slate-200">
+                                            <RenderKatexAndCodes html={choice.content} />
+                                        </CardDescription>
                                     </CardHeader>
                                     {answered && choice.correct && selected[index] && (
                                         <div className="flex justify-center">
@@ -49,12 +43,12 @@ export default function MultipleChoicePoll({ content }: MultipleChoicePollProps)
                                     )}
                                     {answered && !choice.correct && selected[index] && (
                                         <div className="flex justify-center">
-                                            <CardDescription className="text-rose-200"><p className="text-sm">Incorrecto.</p><div dangerouslySetInnerHTML={ { __html: choice.explanation } } /></CardDescription>
+                                            <CardDescription className="text-rose-200"><p className="text-sm">Incorrecto.</p><RenderKatexAndCodes html={choice.explanation} /></CardDescription>
                                         </div>
                                     )}
                                     {answered && choice.correct && !selected[index] && (
                                         <div className="flex justify-center">
-                                            <CardDescription className="text-emerald-200"><p className="text-sm">Respuesta correcta.</p><div dangerouslySetInnerHTML={ { __html: choice.explanation } } /></CardDescription>
+                                            <CardDescription className="text-emerald-200"><p className="text-sm">Respuesta correcta.</p><RenderKatexAndCodes html={choice.explanation} /></CardDescription>
                                         </div>
                                     )}
                                 </CardContent>

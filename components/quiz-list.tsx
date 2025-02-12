@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { createClient } from "@/lib/supabase/server";
+import { Pin } from "lucide-react";
 import Link from "next/link";
 
 interface QuizListProps {
@@ -47,7 +48,11 @@ export default async function QuizList({
         return false;
     };
     const publicLessons = data!.filter(lessonFilter);
-    publicLessons.sort((a, b) => a.id - b.id);
+    publicLessons.sort((a, b) => {
+        if (a.is_fixed && !b.is_fixed) return -1;
+        if (!a.is_fixed && b.is_fixed) return 1;
+        return a.id - b.id;
+    });
     return (
         <div className="mt-8 flex items-center flex-col gap-4 w-full">
             <Carousel className="w-4/6">
@@ -56,6 +61,9 @@ export default async function QuizList({
                         <CarouselItem key={lesson.id}>
                             <Card>
                                 <CardHeader>
+                                    {lesson.is_fixed && <div className="flex items-center gap-2">
+                                        <Pin size={24} />
+                                    </div>}
                                     <CardTitle>{lesson.title}</CardTitle>
                                     <CardDescription>{lesson.description}</CardDescription>
                                 </CardHeader>
