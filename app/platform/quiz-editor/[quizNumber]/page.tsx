@@ -19,6 +19,7 @@ interface QuizData {
     contents: Content[];
     public: boolean;
     description: string;
+    is_fixed: boolean;
 }
 
 
@@ -46,7 +47,7 @@ export default async function Page({
             </div>
         );
     }
-    const { title, contents, description, subject, public: isPublic } = data![0];
+    const { title, contents, description, subject, public: isPublic, is_fixed } = data![0];
     if (!session.roles.isMathHelper && !session.roles.isPhysicsHelper && !session.roles.isChemistryHelper && !session.roles.isBiologyHelper && !session.roles.isComputerScienceHelper && !session.roles.isMathLikeUserId) {
         return (
             <div className="flex items-center justify-center h-screen gap-4">
@@ -96,8 +97,8 @@ export default async function Page({
         );
     }
     return (
-        <div className="flex flex-col items-center w-full">
-            <Editor contents={contents} title={title} description={description} subject={subject} id={id} isPublic={isPublic} />
+        <div className="flex flex-col items-center w-full mb-2">
+            <Editor isFixed={is_fixed} contents={contents} title={title} description={description} subject={subject} id={id} isPublic={isPublic} />
         </div>
     )
 }

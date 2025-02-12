@@ -25,6 +25,7 @@ interface EditorProps {
     subject: string;
     id: number;
     isPublic: boolean;
+    isFixed: boolean;
 };
 
 export function Editor({
@@ -34,6 +35,7 @@ export function Editor({
     subject,
     id,
     isPublic,
+    isFixed
 }: EditorProps) {
     const [newContents, setNewContents] = React.useState(contents);
     function autoSizeDescription() {
@@ -114,7 +116,7 @@ export function Editor({
                     }
                     const title = titleRef.current!.value;
                     const description = descriptionRef.current!.value;
-                    await updateLesson(id, subject, title, newContents, isPublic, description);
+                    await updateLesson(id, subject, title, newContents, isPublic, isFixed, description);
                     toast({
                         title: "Quiz actualizado",
                         description: "Tu quiz ha sido actualizado exitosamente",
@@ -122,6 +124,46 @@ export function Editor({
                 }}>
                     Guardar
                 </Button>
+                {
+                    !isFixed &&
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button className="mt-5" variant="secondary">
+                                Guardar y fijar
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Esta acción no podrá deshacerse. Este quiz será fijado en la plataforma.
+                                ¿Realmente deseas fijar este quiz?
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={async () => {
+                                if (newContents.length === 0) {
+                                    toast({
+                                        title: "Quiz vacío",
+                                        description: "Tu quiz no puede estar vacío",
+                                        variant: "destructive",
+                                    });
+                                    return;
+                                }
+                                const title = titleRef.current!.value;
+                                const description = descriptionRef.current!.value;
+                                await updateLesson(id, subject, title, newContents, isPublic, true, description);
+                                toast({
+                                    title: "Quiz actualizado",
+                                    description: "Tu quiz ha sido actualizado exitosamente",
+                                });
+                                window.location.href = `/platform/view/${id}/0`;
+                            }}>Publicar</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                }
                 {
                     !isPublic &&
                     <AlertDialog>
@@ -151,7 +193,7 @@ export function Editor({
                                 }
                                 const title = titleRef.current!.value;
                                 const description = descriptionRef.current!.value;
-                                await updateLesson(id, subject, title, newContents, true, description);
+                                await updateLesson(id, subject, title, newContents, true, isFixed, description);
                                 toast({
                                     title: "Quiz actualizado",
                                     description: "Tu quiz ha sido actualizado exitosamente",
